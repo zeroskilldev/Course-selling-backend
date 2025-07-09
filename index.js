@@ -13,7 +13,7 @@ app.use("/admin", adminRouter);
 app.use("/course", courseRouter);
 
 async function main(){
-    await mongoose.connect(process.env.MONGO_URL); //use dotenv to store connection string
+    await mongoose.connect(process.env.MONGO_URL);
     console.log("Listening on port 3000");
     app.listen(3000);
 }
