@@ -112,7 +112,7 @@ adminRouter.put("/course", adminAuthMiddleware, async function(req, res) {
     // Endpoint to change title, description, price, imageUrl if needed
     const { courseId, title, description, price, imageUrl } = req.body;
 
-    const adminId = req.adminId;
+    const adminId = new mongoose.Types.ObjectId(req.adminId);
     const courseObjId = new mongoose.Types.ObjectId(courseId);
 
     const course = await courseModel.findOne({

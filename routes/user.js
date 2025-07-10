@@ -2,7 +2,7 @@ const { Router } = require('express');
 const { z } = require('zod');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { userModel } = require('../db');
+const { userModel, purchaseModel, courseModel } = require('../db');
 const userRouter = Router();
 const { jwt_user_secret } = require("../config");
 const { userAuthMiddleware } = require("../middlewares/user");
@@ -85,7 +85,20 @@ userRouter.post("/signin", async function(req, res) {
 
 
 userRouter.get("/purchases", userAuthMiddleware, async function(req, res) {
-    
+    const userId = req.userId;
+
+    const purchases = await purchaseModel.find({
+        userId
+    });
+
+    const courses = await courseModel.find({
+        _id : { $in : purchases.map(x => x.courseId)}
+    })
+
+    res.json({
+        purchases,
+        courses
+    })
 })
 
 
